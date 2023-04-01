@@ -26,6 +26,7 @@ console.log(fibonacci(8))
 
 
 // without an array
+// not a good big O
 function fibonacciWithoutArray(number) {
     if (number < 2) {
         return number;
