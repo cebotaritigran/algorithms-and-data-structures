@@ -14,18 +14,17 @@ class Node {
 }
 
 function buildTree(array) {
-    let sortedArray = mergeSort(array);
-    let noDuplicates = [];
-    //removes duplicates
-    sortedArray.forEach((element) => {
-        if (!noDuplicates.includes(element)) {
-            noDuplicates.push(element);
-        }
-    });
+    console.log(array)
+    if (array.length == 1) {
+        return null;
+    }
+    let mid = Math.floor(array.length / 2)
+    let node = new Node(array[mid], null, null);
+    node.left = buildTree(array.slice(0, mid))
+    node.right = buildTree(array.slice(mid))
+    let tree = new Tree(array, node)
+    return node;
 
-
-    
-    return noDuplicates;
 }
 
 function merge(left, right) {
@@ -51,5 +50,32 @@ function mergeSort(array) {
     return merge(left, right)
 }
 
-console.log(buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]));
+function sortAndRemoveDuplicates(array) {
+    array = mergeSort(array);
+    let newArray = [];
+    array.forEach((element) => {
+        if (!newArray.includes(element)) {
+            newArray.push(element);
+        }
+    });
+    return newArray;
+}
+
+const prettyPrint = (node, prefix = '', isLeft = true) => {
+    if (node === null) {
+        return;
+    }
+    if (node.right !== null) {
+        prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+    }
+    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+    if (node.left !== null) {
+        prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+    }
+}
+
+let array = sortAndRemoveDuplicates([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+
+console.log(buildTree(array));
+console.log(prettyPrint(buildTree(array)))
 
