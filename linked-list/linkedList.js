@@ -70,7 +70,7 @@ class LinkedList {
     //returns the node at the given index
     at(index) {
         let tail = this.head;
-        let numberOfNodes = 1;
+        let numberOfNodes = 0;
 
         while (tail.next != null) {
             //setting the node to next node
@@ -103,6 +103,39 @@ class LinkedList {
         return tail;
     }
 
+    //returns true if the passed in value is in the list and otherwise returns false.
+    contains(value) {
+        let tail = this.head;
+        while (tail.next != null) {
+            //setting the node to next node
+            tail = tail.next;
+            if (tail.data == value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //returns the index of the node containing value, or null if not found.
+    find(value) {
+        let tail = this.head;
+        let numberOfNodes = 0;
+        while (tail.next != null) {
+            //setting the node to next node
+            tail = tail.next;
+            numberOfNodes++;
+            if (tail.data == value) {
+                return numberOfNodes;
+            }
+        }
+        return null;
+    }
+    
+    //represents your LinkedList objects as strings, so you can print them out and preview them in the console. 
+    //The format should be: ( value ) -> ( value ) -> ( value ) -> null
+    toString() {
+
+    }
 
 }
 
@@ -121,8 +154,8 @@ const test = () => {
     linkedlist.prepend("3")
     linkedlist.prepend("4")
     linkedlist.prepend("6")
-    linkedlist.pop()
-    return linkedlist;
+
+    return linkedlist.find("1");
 }
 
 console.log(test());
