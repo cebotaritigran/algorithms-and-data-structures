@@ -2,7 +2,7 @@ class LinkedList {
     constructor(head = null) {
         this.head = head
     }
-
+    //adds a new node containing value to the end of the list
     append(value) {
         // creating new node with value
         let newNode = new Node(value, null)
@@ -26,7 +26,7 @@ class LinkedList {
         tail.next = newNode
         return;
     }
-
+    //adds a new node containing value to the start of the list
     prepend(value) {
         let newNode = new Node(value, null)
         let tmp = this.head
@@ -41,7 +41,7 @@ class LinkedList {
         tail.next = tmp
         return;
     }
-
+    //returns the total number of nodes in the list
     size() {
         let tail = this.head;
         let numberOfNodes = 1;
@@ -52,12 +52,13 @@ class LinkedList {
         }
         return numberOfNodes;
     }
-
+    //returns the first node in the list
     head() {
         let firstNode = this.head
         return firstNode;
     }
 
+    //returns the last node in the list
     tail() {
         let tailOfList = this.head;
         while (tailOfList.next != null) {
@@ -66,7 +67,7 @@ class LinkedList {
         }
         return tailOfList;
     }
-
+    //returns the node at the given index
     at(index) {
         let tail = this.head;
         let numberOfNodes = 1;
@@ -80,10 +81,29 @@ class LinkedList {
             }
         }
     }
-
+    //removes the last element from the list
     pop() {
-        
+        // last element is the last nodes number
+        let lastElement = this.size();
+        // we count number of nodes
+        let numberOfNodes = 1;
+        let tail = this.head;
+        // while number of nodes is greater than the size of the node list we itirate through list
+        while (numberOfNodes < lastElement) {
+            //setting the node to next node
+            numberOfNodes++;
+            console.log(numberOfNodes)
+            tail = tail.next;
+            // if the last node is equal to the last element we pop it by assigning nodes next to null instead of that node
+            if (numberOfNodes == lastElement - 1) {
+                tail.next = null;
+                return this.head;
+            }
+        }
+        return tail;
     }
+
+
 }
 
 class Node {
@@ -95,12 +115,14 @@ class Node {
 
 const test = () => {
     let linkedlist = new LinkedList(null)
-    linkedlist.append("0")
+
     linkedlist.prepend("1")
+    linkedlist.prepend("2")
     linkedlist.prepend("3")
     linkedlist.prepend("4")
     linkedlist.prepend("6")
-    return linkedlist.at(2);
+    linkedlist.pop()
+    return linkedlist;
 }
 
 console.log(test());
