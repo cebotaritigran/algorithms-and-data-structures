@@ -130,11 +130,20 @@ class LinkedList {
         }
         return null;
     }
-    
+
     //represents your LinkedList objects as strings, so you can print them out and preview them in the console. 
     //The format should be: ( value ) -> ( value ) -> ( value ) -> null
     toString() {
-
+        let tail = this.head;
+        let string = "";
+        while (tail.next != null) {
+            //setting the node to next node
+            string += `(${tail.data}) -> `
+            tail = tail.next;
+        }
+        string += `(${tail.data}) -> `
+        string += `(${tail.next})`
+        return string;
     }
 
 }
@@ -155,7 +164,7 @@ const test = () => {
     linkedlist.prepend("4")
     linkedlist.prepend("6")
 
-    return linkedlist.find("1");
+    return linkedlist;
 }
 
 console.log(test());
