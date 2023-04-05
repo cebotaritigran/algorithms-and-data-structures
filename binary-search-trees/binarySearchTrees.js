@@ -1,10 +1,3 @@
-class Tree {
-    constructor(root, array = []) {
-        this.root = root
-        this.array = array;
-    }
-}
-
 class Node {
     constructor(data = null, left = null, right = null) {
         this.data = data
@@ -13,17 +6,24 @@ class Node {
     }
 }
 
-function buildTree(array) {
-    if (array.length == 0) {
-        return null;
+class Tree {
+    constructor(array = [], root = null) {
+        this.array = array;
+        this.root = root
     }
-    let mid = Math.floor(array.length / 2)
-    let node = new Node(array[mid]);
-    let tree = new Tree(node, array)
-    node.left = buildTree(array.slice(0, mid))
-    node.right = buildTree(array.slice(mid + 1))
-    console.log(tree)
-    return node;
+
+    buildTree(array) {
+
+        if (array.length == 0) {
+            return null;
+        }
+        let mid = Math.floor(array.length / 2)
+        let node = new Node(array[mid]);
+        this.array.push(node)
+        node.left = tree.buildTree(array.slice(0, mid))
+        node.right = tree.buildTree(array.slice(mid + 1))
+        return node;
+    }
 }
 
 function merge(left, right) {
@@ -72,9 +72,9 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
         prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
 }
+let tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+let array = sortAndRemoveDuplicates(tree.array)
+console.log(tree.buildTree(array));
+console.log(prettyPrint(tree.buildTree(array)))
 
-let array = sortAndRemoveDuplicates([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
-
-console.log(buildTree(array));
-console.log(prettyPrint(buildTree(array)))
 
