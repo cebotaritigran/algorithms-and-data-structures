@@ -23,11 +23,10 @@ class Tree {
         return node;
     }
 
-    insert(value, root) {
+    insert(value, root = this.root) {
         if (root == null) {
             let node = new Node(value, null, null);
             root = node
-            console.log(root)
             return root;
         }
         if (value < root.data) {
@@ -38,8 +37,31 @@ class Tree {
         return root
     }
 
-    delete(value, root) {
+    minValue(root = this.root) {
+        let minV = root.data;
+        while (root.left != null) {
+            minV = root.left.data;
+            root = root.left
+        }
+        return minV;
+    }
 
+    delete(value, root = this.root) {
+        if (root == null)
+            return root;
+        if (value < root.data)
+            root.left = this.delete(value, root.left);
+        else if (value > root.data)
+            root.right = this.delete(value, root.right);
+        else {
+            if (root.left == null)
+                return root.right;
+            else if (root.right == null)
+                return root.left;
+            root.data = this.minValue(root.right);
+            root.right = this.delete(root.data, root.right);
+        }
+        return root;
     }
 }
 
@@ -95,10 +117,14 @@ let tree = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 let array = sortAndRemoveDuplicates(tree)
 let trees = new Tree(array)
 
-console.log(trees.buildTree(array));
-console.log(trees.insert(2, trees.buildTree(array)));
-console.log(prettyPrint(trees.buildTree(array)))
-console.log(prettyPrint(trees.insert(2, trees.buildTree(array))));
+//console.log(trees.buildTree(array));
+//console.log(trees.insert(2, trees.buildTree(array)));
+//console.log(prettyPrint(trees.buildTree(array)))
+//console.log(prettyPrint(trees.insert(2, trees.buildTree(array))));
+trees.insert(2)
+trees.delete(8)
+console.log(prettyPrint(trees.root));
+
 
 
 
