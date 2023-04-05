@@ -7,9 +7,8 @@ class Node {
 }
 
 class Tree {
-    constructor(array = [], root = null) {
-        this.array = array;
-        this.root = root
+    constructor(array) {
+        this.root = this.buildTree(array);
     }
 
     buildTree(array) {
@@ -19,10 +18,28 @@ class Tree {
         }
         let mid = Math.floor(array.length / 2)
         let node = new Node(array[mid]);
-        this.array.push(node)
-        node.left = tree.buildTree(array.slice(0, mid))
-        node.right = tree.buildTree(array.slice(mid + 1))
+        node.left = this.buildTree(array.slice(0, mid))
+        node.right = this.buildTree(array.slice(mid + 1))
         return node;
+    }
+
+    insert(value, root) {
+        if (root == null) {
+            let node = new Node(value, null, null);
+            root = node
+            console.log(root)
+            return root;
+        }
+        if (value < root.data) {
+            root.left = this.insert(value, root.left)
+        } else if (value > root.data) {
+            root.right = this.insert(value, root.right)
+        }
+        return root
+    }
+
+    delete(value, root) {
+
     }
 }
 
@@ -72,9 +89,16 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
         prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
 }
-let tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
-let array = sortAndRemoveDuplicates(tree.array)
-console.log(tree.buildTree(array));
-console.log(prettyPrint(tree.buildTree(array)))
+
+//TESTS
+let tree = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+let array = sortAndRemoveDuplicates(tree)
+let trees = new Tree(array)
+
+console.log(trees.buildTree(array));
+console.log(trees.insert(2, trees.buildTree(array)));
+console.log(prettyPrint(trees.buildTree(array)))
+console.log(prettyPrint(trees.insert(2, trees.buildTree(array))));
+
 
 
