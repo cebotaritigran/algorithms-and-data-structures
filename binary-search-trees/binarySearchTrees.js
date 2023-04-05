@@ -14,17 +14,16 @@ class Node {
 }
 
 function buildTree(array) {
-    console.log(array)
-    if (array.length == 1) {
+    if (array.length == 0) {
         return null;
     }
     let mid = Math.floor(array.length / 2)
-    let node = new Node(array[mid], null, null);
+    let node = new Node(array[mid]);
+    let tree = new Tree(node, array)
     node.left = buildTree(array.slice(0, mid))
-    node.right = buildTree(array.slice(mid))
-    let tree = new Tree(array, node)
+    node.right = buildTree(array.slice(mid + 1))
+    console.log(tree)
     return node;
-
 }
 
 function merge(left, right) {
