@@ -12,7 +12,6 @@ class Tree {
     }
 
     buildTree(array) {
-
         if (array.length == 0) {
             return null;
         }
@@ -170,45 +169,37 @@ class Tree {
     }
 
     height(root = this.root) {
-        if (root == null) {
-            return -1;
-        }
-        let heightLeft = root.left = this.height(root.left) + 1;
-        let heightRight = root.right = this.height(root.right) + 1;
-        if (heightLeft > heightRight) {
-            return heightLeft
-        } else {
-            return heightRight
-        }
+        if (root === null) return -1;
+        const leftHeight = this.height(root.left);
+        const rightHeight = this.height(root.right);
+        return Math.max(leftHeight, rightHeight) + 1;
     }
 
-    depth(root, node, level = 0) {
-        if (root == null) {
-            return -1
-        }
-        if (root.data == node.data) {
-            return level
-        }
-        if (root.data > node.data) {
-            return root.left = this.depth(root.left, node, level + 1)
-        } else if (root.data < node.data) {
-            return root.right = this.depth(root.right, node, level + 1)
-        }
-        return level + 1
+    depth(node, root = this.root, level = 0) {
+        if (!node) return null;
+        if (root === null) return 0;
+        if (root.key === node.key) return level;
+        let count = this.depth(node, root.left, level + 1);
+        if (count !== 0) return count;
+        return this.depth(node, root.right, level + 1);
     }
 
-    isBalanced(root = this.root) {
-        if (root === null) {
-            return true;
-        }
+    isBalanced(node = this.root) {
+        if (node === null) return true;
         const heightDiff = Math.abs(
-            this.height(root.left) - this.height(root.right)
+            this.height(node.left) - this.height(node.right)
         );
         return (
             heightDiff <= 1 &&
-            this.isBalanced(root.left) &&
-            this.isBalanced(root.right)
+            this.isBalanced(node.left) &&
+            this.isBalanced(node.right)
         );
+    }
+
+    rebalance() {
+        if (this.root === null) return;
+        const sorted = [...new Set(this.inorder().sort((a, b) => a - b))];
+        this.root = this.buildTree(sorted);
     }
 
 }
@@ -270,7 +261,7 @@ let trees = new Tree(array)
 
 //console.log(trees.find(1));
 //console.log(trees.levelOrder((x) => { return x + 5 }));
-console.log(prettyPrint(trees.root));
+//console.log(prettyPrint(trees.root));
 //console.log(trees.height(trees.root));
 //console.log(trees.depth(trees.root, trees.find(4)));
 console.log(trees.isBalanced())
