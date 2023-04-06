@@ -100,17 +100,27 @@ class Tree {
             return;
         }
         let queue = [this.root];
-        console.log(queue)
+        let levels = []
         while (queue.length != 0) {
-            console.log(queue[0].data);
+            let result = []
+            result.push(queue[0].data)
+
             if (queue[0].left != null) {
                 queue.push(queue[0].left);
             }
             if (queue[0].right != null) {
                 queue.push(queue[0].right);
             }
+            if (callback) {
+                callback(queue[0].data);
+                // testing
+                console.log(callback(queue[0].data))
+            }
             queue.shift();
+            levels.push(result);
         }
+
+        return levels
 
     }
 
@@ -170,10 +180,11 @@ let array = sortAndRemoveDuplicates(tree)
 let trees = new Tree(array)
 
 trees.insert(2)
-trees.delete(8)
-console.log(prettyPrint(trees.root));
+//trees.delete(8)
+
 //console.log(trees.find(1));
-console.log(trees.levelOrder());
+console.log(trees.levelOrder((x) => { return x + 5 }));
+console.log(prettyPrint(trees.root));
 
 
 
