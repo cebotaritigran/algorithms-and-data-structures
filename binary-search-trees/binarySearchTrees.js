@@ -47,22 +47,74 @@ class Tree {
     }
 
     delete(value, root = this.root) {
-        if (root == null)
+        // base case if root is null return root
+        if (root == null) {
             return root;
-        if (value < root.data)
+        }
+        // if value is smaller then current node data that it is the left subtree
+        if (value < root.data) {
+            //call function recursivly on left subtree
             root.left = this.delete(value, root.left);
-        else if (value > root.data)
+        }
+        // if value is bigger then the current node data than it is the right subtree
+        else if (value > root.data) {
+            //call function recursivly on right subtree
             root.right = this.delete(value, root.right);
+        }
+        // if its current node's data then we check with which node we have to replace it
         else {
-            if (root.left == null)
+            // checking if we can replace it with left node first which will be smaller than current node and that wouldn't break order
+            // if not we return right node
+            if (root.left == null) {
                 return root.right;
-            else if (root.right == null)
+            }
+            // checking if the right node exist if it does we return it if not we return left node
+            else if (root.right == null) {
                 return root.left;
+            }
+            //if both are not null we get the min value and assign it to current data
             root.data = this.minValue(root.right);
+            // then we call delete function again
             root.right = this.delete(root.data, root.right);
         }
         return root;
     }
+
+    // we pass value and our tree, then we check if the value is smaller than root.data if it is we have to search
+    // left subtree if not then right subtree and then we ask if the value is data if it is return it if not keep searching
+    find(value, root = this.root) {
+        if (root == null) {
+            return null;
+        }
+        if (value < root.data) {
+            return root.left = this.find(value, root.left)
+        } else if (value > root.data) {
+            return root.right = this.find(value, root.right)
+        } else {
+            return root;
+        }
+    }
+
+    levelOrder(callback) {
+        if (this.root == null) {
+            return;
+        }
+        let queue = [this.root];
+        console.log(queue)
+        while (queue.length != 0) {
+            console.log(queue[0].data);
+            if (queue[0].left != null) {
+                queue.push(queue[0].left);
+            }
+            if (queue[0].right != null) {
+                queue.push(queue[0].right);
+            }
+            queue.shift();
+        }
+
+    }
+
+
 }
 
 function merge(left, right) {
@@ -117,13 +169,11 @@ let tree = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 let array = sortAndRemoveDuplicates(tree)
 let trees = new Tree(array)
 
-//console.log(trees.buildTree(array));
-//console.log(trees.insert(2, trees.buildTree(array)));
-//console.log(prettyPrint(trees.buildTree(array)))
-//console.log(prettyPrint(trees.insert(2, trees.buildTree(array))));
 trees.insert(2)
 trees.delete(8)
 console.log(prettyPrint(trees.root));
+//console.log(trees.find(1));
+console.log(trees.levelOrder());
 
 
 
