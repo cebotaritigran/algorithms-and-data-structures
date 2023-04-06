@@ -124,7 +124,54 @@ class Tree {
 
     }
 
+    inorder(root = this.root, callback) {
+        if (root == null) {
+            return;
+        }
+        root.left = this.inorder(root.left, callback);
+        if (callback) {
+            callback(root.data);
+            console.log(callback(root.data))
+        } else {
+            console.log(root.data)
+        }
+        root.right = this.inorder(root.right, callback);
+        return;
+    }
 
+    preorder(root = this.root, callback) {
+        if (root == null) {
+            return;
+        }
+        if (callback) {
+            callback(root.data);
+            console.log(callback(root.data))
+        } else {
+            console.log(root.data)
+        }
+        root.left = this.preorder(root.left, callback);
+        root.right = this.preorder(root.right, callback);
+        return;
+    }
+
+    postorder(root = this.root, callback) {
+        if (root == null) {
+            return;
+        }
+        root.left = this.postorder(root.left, callback);
+        root.right = this.postorder(root.right, callback);
+        if (callback) {
+            callback(root.data);
+            console.log(callback(root.data))
+        } else {
+            console.log(root.data)
+        }
+        return;
+    }
+
+    height(root = this.root) {
+
+    }
 }
 
 function merge(left, right) {
@@ -183,8 +230,9 @@ trees.insert(2)
 //trees.delete(8)
 
 //console.log(trees.find(1));
-console.log(trees.levelOrder((x) => { return x + 5 }));
+//console.log(trees.levelOrder((x) => { return x + 5 }));
 console.log(prettyPrint(trees.root));
+console.log(trees.postorder());
 
 
 
