@@ -1,16 +1,21 @@
+function isNumber(char) {
+    return /^\d$/.test(char);
+}
+
 export const capitalize = (string) => {
     let slicedString = "";
-    console.log(string.length)
+    let slicedNumbers = string;
     for (let i = 0; i < string.length; i++) {
-        if (parseInt(string.charAt(i)) == Number) {
-            slicedString += string.slice(i)
-            console.log(string.slice(i))
+        if (isNumber(string.charAt(i)) == false) {
+            slicedNumbers = string.slice(0, i)
+            slicedString = slicedNumbers + string.charAt(i).toUpperCase() + string.slice(i + 1);
+            console.log(slicedString)
+            return slicedString
         }
     }
 
-    let capatalizedString = slicedString + string.charAt(0).toUpperCase() + string.slice(1)
-    console.log(capatalizedString)
-    return capatalizedString
+    //let capatalizedString = slicedString + string.charAt(0).toUpperCase() + string.slice(1)
+    //console.log(capatalizedString)
 
 }
 
