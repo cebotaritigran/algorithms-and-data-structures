@@ -25,6 +25,6 @@ test('Check if first letter is capatalized in a word with numbers in front', () 
 });
 
 test('Check if first letter is capatalized in a word with numbers and symbols in front', () => {
-  expect(capitalize("#123test")).toBe("123Test");
+  expect(capitalize("#123test")).toBe("#123Test");
 });
 
