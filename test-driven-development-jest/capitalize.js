@@ -1,4 +1,4 @@
-function isNumber(char) {
+function isAlphaNumeric(char) {
     return /^[a-zA-Z èàùìòÈÀÒÙÌéáúíóÉÁÚÍÓëäüïöËÄÜÏÖêâûîôÊÂÛÎÔç'-]*$/.test(char);
 }
 
@@ -6,7 +6,7 @@ export const capitalize = (string) => {
     let slicedString = "";
     let slicedNumbers = string;
     for (let i = 0; i < string.length; i++) {
-        if (isNumber(string.charAt(i)) == true) {
+        if (isAlphaNumeric(string.charAt(i)) == true) {
             slicedNumbers = string.slice(0, i)
             console.log(string.charAt(i))
             slicedString = slicedNumbers + string.charAt(i).toUpperCase() + string.slice(i + 1);
