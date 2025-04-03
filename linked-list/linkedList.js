@@ -1,170 +1,194 @@
-class LinkedList {
-    constructor(head = null) {
-        this.head = head
-    }
-    //adds a new node containing value to the end of the list
-    append(value) {
-        // creating new node with value
-        let newNode = new Node(value, null)
-        //if the head of the list is null creating new head node with value
-        if (this.head == null) {
-            this.head = new Node(value, null)
-            return;
-        }
-        // if the head value is not null
-        //setting newnode next value to null
-        newNode.next = null;
+class Node {
+    constructor(value, nextNode, key) {
 
-        //creating tail node
-        let tail = this.head;
-        //iterating through linked list to find tail node
-        while (tail.next != null) {
-            //setting the node to next node
-            tail = tail.next;
-        }
-        //setting the last node to newNode
-        tail.next = newNode
-        return;
+        this.value = value;
+        this.nextNode = nextNode;
+        this.key = key;
     }
-    //adds a new node containing value to the start of the list
+}
+
+
+
+export class LinkedList {
+    constructor(head,) {
+        this.head = head
+
+    }
+
+    addFirstNode(value, key) {
+        let firstNode = new Node(value, null, key);
+        this.head = firstNode;
+    }
+
+    //adds node at the end of the list
+    append(value, key) {
+        if (this.head == null) {
+            this.addFirstNode(value, key);
+        } else {
+            let tmp = this.head;
+            while (tmp.nextNode != null) {
+                tmp = tmp.nextNode;
+            }
+            tmp.nextNode = new Node(value, null, key);
+        }
+    }
+
+    //adds node at the start of the list
     prepend(value) {
-        let newNode = new Node(value, null)
-        let tmp = this.head
-        this.head = newNode
-        let tail = this.head;
-        //iterating through linked list to find tail node
-        while (tail.next != null) {
-            //setting the node to next node
-            tail = tail.next;
+        if (this.head == null) {
+            this.addFirstNode(value);
+        } else {
+            let tmp = this.head;
+            let newNode = new Node(value, tmp);
+            this.head = newNode;
         }
-        //setting the last node to tmp
-        tail.next = tmp
-        return;
     }
+
     //returns the total number of nodes in the list
     size() {
-        let tail = this.head;
-        let numberOfNodes = 1;
-        while (tail.next != null) {
-            //setting the node to next node
-            numberOfNodes++;
-            tail = tail.next;
+        let tmp = this.head;
+        let nodeCounter = 0;
+        while (tmp.nextNode != null) {
+            tmp = tmp.nextNode;
+            nodeCounter++;
         }
-        return numberOfNodes;
+        nodeCounter++;
+        return nodeCounter;
     }
+
     //returns the first node in the list
-    head() {
-        let firstNode = this.head
-        return firstNode;
+    headNode() {
+        return this.head;
     }
 
     //returns the last node in the list
-    tail() {
-        let tailOfList = this.head;
-        while (tailOfList.next != null) {
-            //setting the node to next node
-            tailOfList = tailOfList.next;
+    tailNode() {
+        let tmp = this.head;
+        while (tmp.nextNode != null) {
+            tmp = tmp.nextNode;
         }
-        return tailOfList;
+        return tmp;
     }
-    //returns the node at the given index
-    at(index) {
-        let tail = this.head;
-        let numberOfNodes = 0;
 
-        while (tail.next != null) {
-            //setting the node to next node
-            numberOfNodes++;
-            tail = tail.next;
-            if (index == numberOfNodes) {
-                return tail;
-            }
+    //returns the node at the given index
+    atIndex(index) {
+        let tmp = this.head;
+        for (let i = 0; i < index; i++) {
+            tmp = tmp.nextNode;
         }
+        return tmp.value;
     }
+
     //removes the last element from the list
     pop() {
-        // last element is the last nodes number
-        let lastElement = this.size();
-        // we count number of nodes
-        let numberOfNodes = 1;
-        let tail = this.head;
-        // while number of nodes is greater than the size of the node list we itirate through list
-        while (numberOfNodes < lastElement) {
-            //setting the node to next node
-            numberOfNodes++;
-            console.log(numberOfNodes)
-            tail = tail.next;
-            // if the last node is equal to the last element we pop it by assigning nodes next to null instead of that node
-            if (numberOfNodes == lastElement - 1) {
-                tail.next = null;
-                return this.head;
+        let tmp = this.head;
+
+        while (tmp.nextNode != null) {
+            // checking last node by checking if the next node is null
+            // if it is null we remove previous nodes next node adress to null to remove it from list
+            let lastNodeChecker = tmp.nextNode;
+            if (tmp.nextNode != null && lastNodeChecker.nextNode == null) {
+                tmp.nextNode = null;
+            } else {
+                tmp = tmp.nextNode;
             }
         }
-        return tail;
     }
 
-    //returns true if the passed in value is in the list and otherwise returns false.
     contains(value) {
-        let tail = this.head;
-        while (tail.next != null) {
-            //setting the node to next node
-            tail = tail.next;
-            if (tail.data == value) {
+        let tmp = this.head;
+        while (tmp.nextNode != null) {
+            if (value == tmp.value) {
                 return true;
             }
+            tmp = tmp.nextNode;
         }
         return false;
     }
 
-    //returns the index of the node containing value, or null if not found.
     find(value) {
-        let tail = this.head;
-        let numberOfNodes = 0;
-        while (tail.next != null) {
-            //setting the node to next node
-            tail = tail.next;
-            numberOfNodes++;
-            if (tail.data == value) {
-                return numberOfNodes;
+        let tmp = this.head;
+        let indexCounter = 0;
+        while (tmp.nextNode != null) {
+            if (value == tmp.value) {
+                return indexCounter;
             }
+            indexCounter++;
+            tmp = tmp.nextNode;
         }
         return null;
     }
 
-    //represents your LinkedList objects as strings, so you can print them out and preview them in the console. 
-    //The format should be: ( value ) -> ( value ) -> ( value ) -> null
-    toString() {
-        let tail = this.head;
-        let string = "";
-        while (tail.next != null) {
-            //setting the node to next node
-            string += `(${tail.data}) -> `
-            tail = tail.next;
+    insertAt(value, index) {
+        let tmp = this.head;
+        let indexCounter = 0;
+
+        while (tmp.nextNode != null) {
+            indexCounter++;
+            if (index == indexCounter) {
+                //current node is marry
+                let nodeToInsert = new Node(value, tmp.nextNode); // we create new node with value kenneth and set it next node to tim
+                console.log(tmp.value)
+                // set the current node's next node to kenneth and continue the loop
+                // the loop will not be interupted because next node is not null
+                tmp.nextNode = nodeToInsert;
+                console.log(tmp.value)
+
+            } else {
+                tmp = tmp.nextNode;
+            }
         }
-        string += `(${tail.data}) -> `
-        string += `(${tail.next})`
-        return string;
     }
 
-}
 
-class Node {
-    constructor(data = null, next = null) {
-        this.data = data
-        this.next = next
+    removeAt(index) {
+        let tmp = this.head;
+        let indexCounter = 0;
+        let previousNode = null;
+        if (index == 0) {
+            let nodeToRemove = this.head;
+            this.head = nodeToRemove.nextNode;
+            return;
+        }
+
+        while (tmp.nextNode != null) {
+            if (index == indexCounter) {
+                if (previousNode != null) {
+                    previousNode.nextNode = tmp.nextNode;
+                    return;
+                }
+            }
+            previousNode = tmp;
+            tmp = tmp.nextNode;
+            indexCounter++;
+        }
+    }
+
+    toString() {
+        let tmp = this.head;
+        let printString = ""
+        while (this.head.nextNode != null) {
+            printString += "(" + this.head.value + ")-> "
+            this.head = this.head.nextNode;
+        }
+        printString += "(" + this.head.value + ")-> "
+        return printString;
     }
 }
 
-const test = () => {
-    let linkedlist = new LinkedList(null)
+let linkedList = new LinkedList();
+linkedList.append("george")
+linkedList.append("marry")
+linkedList.append("tim")
+linkedList.append("john")
 
-    linkedlist.prepend("1")
-    linkedlist.prepend("2")
-    linkedlist.prepend("3")
-    linkedlist.prepend("4")
-    linkedlist.prepend("6")
-
-    return linkedlist;
-}
-
-console.log(test());
+//console.log(linkedList.toString());
+//console.log(linkedList.size());
+//console.log(linkedList.headNode());
+//console.log(linkedList.tailNode());
+//console.log(linkedList.atIndex(4));
+//linkedList.pop()
+//console.log(linkedList.find("marry"));
+//linkedList.insertAt("Kenneth", 2)
+linkedList.removeAt(0)
+console.log(linkedList.toString());

@@ -253,18 +253,17 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 //TESTS
 let tree = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
-let array = sortAndRemoveDuplicates(tree)
+//let array = sortAndRemoveDuplicates(tree)
 let trees = new Tree(array)
 
 
 //trees.delete(8)
 
 //console.log(trees.find(1));
-//console.log(trees.levelOrder((x) => { return x + 5 }));
-//console.log(prettyPrint(trees.root));
+console.log(prettyPrint(trees.root));
 //console.log(trees.height(trees.root));
 //console.log(trees.depth(trees.root, trees.find(4)));
-console.log(trees.isBalanced())
+//console.log(trees.isBalanced())
 
 
 
